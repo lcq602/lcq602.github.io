@@ -1,0 +1,49 @@
+baseURL: "https://lcq602.github.io/"
+languageCode: "zh-cn"
+defaultContentLanguage: "zh"
+title: "林允的技术博客"
+theme: ["github.com/adityatelange/hugo-PaperMod"]
+enableRobotsTXT: true
+
+pagination:
+  pagerSize: 10
+
+minify:
+  disableXML: true
+
+params:
+  env: production
+  title: "林允的技术博客"
+  description: "记录 Godot、Java、AI 与日常开发实践"
+  author: "林允"
+  defaultTheme: auto
+  ShowReadingTime: true
+  ShowShareButtons: true
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowToc: true
+  homeInfoParams:
+    Title: "你好，我是林允 👋"
+    Content: "这里记录 Godot 游戏开发、Java 后端、AI Agent 和各种踩坑经验。"
+
+menu:
+  main:
+    - identifier: posts
+      name: 文章
+      url: /posts/
+      weight: 10
+    - identifier: archives
+      name: 归档
+      url: /archives/
+      weight: 20
+    - identifier: search
+      name: 搜索
+      url: /search/
+      weight: 30
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
