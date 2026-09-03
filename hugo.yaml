@@ -4,6 +4,7 @@ defaultContentLanguage: "zh"
 title: "林允的技术博客"
 theme: ["github.com/adityatelange/hugo-PaperMod"]
 enableRobotsTXT: true
+summaryLength: 120
 
 pagination:
   pagerSize: 10
@@ -17,6 +18,8 @@ params:
   description: "记录 Godot、Java、AI 与日常开发实践"
   author: "林允"
   defaultTheme: auto
+  mainSections:
+    - posts
   ShowReadingTime: true
   ShowShareButtons: true
   ShowPostNavLinks: true
@@ -25,7 +28,7 @@ params:
   ShowToc: true
   homeInfoParams:
     Title: "你好，我是林允 👋"
-    Content: "这里记录 Godot 游戏开发、Java 后端、AI Agent 和各种踩坑经验。"
+    Content: "这里记录 Godot 游戏开发、Java 后端、AI Agent 和各种踩坑经验。最新文章按发布时间倒序排列。"
 
 menu:
   main:
