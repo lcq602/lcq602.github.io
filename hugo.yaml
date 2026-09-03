@@ -15,7 +15,7 @@ minify:
 params:
   env: production
   title: "林允的技术博客"
-  description: "记录 Godot、Java、AI 与日常开发实践"
+  description: "记录技术探索、工程实践与开发思考"
   author: "林允"
   defaultTheme: auto
   mainSections:
@@ -28,7 +28,7 @@ params:
   ShowToc: true
   homeInfoParams:
     Title: "你好，我是林允 👋"
-    Content: "这里记录 Godot 游戏开发、Java 后端、AI Agent 和各种踩坑经验。最新文章按发布时间倒序排列。"
+    Content: "记录技术探索、工程实践与开发思考。分享 Java 后端、AI Agent、DevOps，以及那些真正解决过问题的经验。"
 
 menu:
   main:
