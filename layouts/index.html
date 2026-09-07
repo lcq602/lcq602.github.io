@@ -1,14 +1,14 @@
 {{ define "main" }}
 {{ $posts := where site.RegularPages "Section" "post" }}
-<section class="hero">
+<section class="hero hero-editorial">
   <div class="shell hero-grid">
-    <div class="hero-copy">
-      <span class="eyebrow">LIN YUN'S COLLECTION</span>
-      <h1>记录喜欢的作品，<br><em>也记录正在成长的自己。</em></h1>
-      <p>电影带我看见别人的人生，动漫保存想象力，学习让每一天都比昨天更辽阔。</p>
-      <div class="hero-actions">
-        <a class="button primary" href="#collections">开始浏览</a>
-        <a class="button ghost" href="{{ "/archive/" | relURL }}">全部内容</a>
+    <div class="hero-copy hero-copy-editorial">
+      <span class="hero-note">电影 · 动漫 · 游戏开发</span>
+      <h1 class="hero-title">林允的收藏夹</h1>
+      <p class="hero-lead">随手记下看过的、喜欢的，以及最近正在学的东西。</p>
+      <div class="hero-actions hero-actions-editorial">
+        <a class="button primary" href="#collections">最近更新</a>
+        <a class="button ghost" href="{{ "/archive/" | relURL }}">文章归档</a>
       </div>
     </div>
     <div class="hero-carousel" data-carousel aria-label="精选分类轮播">
