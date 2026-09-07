@@ -1,19 +1,81 @@
-# AGENTS.md
+# ✦ Lin Yun Blog · AI Authoring Guide
 
-本仓库是 Hugo 个人博客。所有 AI/Agent 在新增、修改文章或页面时，必须遵守本文件。
+> **Purpose**  
+> 这不是一份“让 AI 随便写文章”的说明，而是一套让 AI 像一个靠谱编辑一样工作的博客创作规范。  
+> 目标只有一个：**文章好看、自然、能读、能点开，并且看起来像真的个人博客。**
 
-## 1. 核心原则
+---
 
-- 博客不是 AI 产品落地页，不要使用夸张、模板化、营销式文案。
-- 文章应像真实个人博客：自然、克制、有个人观点，有具体细节，不堆砌空洞总结。
-- 用户提供文字、图片、主题后，AI 可以直接整理并生成 HTML 内容文章。
-- **禁止为单篇文章生成完整独立 HTML 文档。** 不要写 `<!doctype html>`、`<html>`、`<head>`、`<body>`。
-- 单篇文章必须继续使用 Hugo 现有的 `baseof.html`、header、footer、全局动态背景和站点 CSS。
-- 不要为了新增文章修改全站主题，除非用户明确要求。
+## 01 · 先记住这件事
 
-## 2. 推荐文章格式：Hugo HTML Content
+### ✅ 我们要的
 
-需要富文本、图文混排、特殊布局时，优先创建：
+- 像真实的人写出来的博客
+- 有自己的判断、偏好、吐槽和细节
+- 图片与文字自然穿插
+- 页面舒服，阅读优先
+- 首页卡片、分类页、详情页全部正常
+- 保留现有站点的动态背景、导航和整体视觉
+
+### ❌ 我们不要的
+
+- AI 产品官网感
+- 巨大的渐变标题
+- “不仅仅是……更是……”式套话
+- 一堆玻璃卡片互相套娃
+- 一篇文章单独做成另一个网站
+- 首页有卡片，点进去却 404
+
+---
+
+# ✍️ Article Philosophy
+
+## 02 · 写作应该像“人”，不是像“模型”
+
+文章优先保留用户自己的表达。
+
+AI 可以做这些事：
+
+- 整理语序
+- 拆分长段落
+- 增加自然的小标题
+- 根据图片安排图文节奏
+- 补充必要过渡
+- 帮用户把零散想法整理成完整文章
+
+AI 不应该做这些事：
+
+- 把用户原话全部洗成标准议论文
+- 每一段都总结中心思想
+- 强行升华
+- 大量使用模板句
+- 为了“显得高级”而写空话
+
+### 避免这些高频 AI 句式
+
+> “真正让我感动的是……”  
+> “这不仅仅是……更是……”  
+> “也许这就是……的意义。”  
+> “在这个快节奏的时代……”  
+> “当我们回过头来看……”
+
+可以有情绪，但要具体。
+
+**写场景、角色、瞬间、选择、当时的感觉。**
+
+---
+
+# 🗂 Content Structure
+
+## 03 · 文章放在哪里
+
+普通文章：
+
+```text
+content/post/<slug>.md
+```
+
+需要更漂亮的图文排版时，优先：
 
 ```text
 content/post/<slug>.html
@@ -25,91 +87,149 @@ content/post/<slug>.html
 content/post/attack-on-titan-thoughts.html
 ```
 
-文件顶部必须包含 YAML Front Matter：
+> `.html` 文章不是完整网页。
+>
+> **禁止**写：
+>
+> ```html
+> <!doctype html>
+> <html>
+> <head>
+> <body>
+> ```
+>
+> Hugo 已经负责整站框架。
+
+---
+
+# 🧾 Front Matter
+
+## 04 · 每篇文章必须有完整元信息
 
 ```yaml
 ---
-title: "文章标题"
+title: "《进击的巨人》：自由的另一面"
 date: 2026-09-07T20:00:00+08:00
-description: "用于首页卡片和列表页的简短描述，建议 35～80 字。"
+description: "重新看完《进击的巨人》以后，我对自由、三笠和墙外世界的一些想法。"
 categories:
   - 动漫
 tags:
   - 进击的巨人
+  - 三笠
   - 观后感
 image: "/img/posts/attack-on-titan/cover.jpg"
 ---
 ```
 
-Front Matter 之后只写文章内容片段，例如：
+### 必填字段
 
-```html
-<figure class="article-figure article-figure-wide">
-  <img src="/img/posts/attack-on-titan/cover.jpg" alt="夕阳下的三笠" loading="lazy">
-  <figcaption>真正走到墙外以后，自由反而变得更复杂。</figcaption>
-</figure>
+| 字段 | 用途 |
+|---|---|
+| `title` | 文章标题 |
+| `date` | 发布时间 |
+| `description` | 首页卡片和列表摘要 |
+| `categories` | 决定首页进入哪个栏目 |
+| `image` | 首页封面图 |
 
-<p>正文第一段……</p>
+---
 
-<h2>墙外并不等于自由</h2>
-<p>正文……</p>
+# 🧭 Categories
+
+## 05 · 当前分类只允许这三个
+
+```text
+电影
+动漫
+学习
 ```
 
-## 3. 分类规范
+必须完全一致。
 
-当前一级内容分类固定为：
+### ✅ 正确
 
-- `电影`
-- `动漫`
-- `学习`
+```yaml
+categories:
+  - 动漫
+```
 
-Front Matter 的 `categories` 至少包含一个上述分类。
+### ❌ 不要写
 
-首页会通过分类筛选文章，所以分类名称必须完全一致，不要写成：
+```text
+动画
+Anime
+动漫笔记
+Movies
+学习笔记
+```
 
-- 动画
-- Anime
-- 学习笔记
-- Movies
+因为首页是按固定分类自动筛选的。
 
-除非以后同步修改首页分类逻辑。
+---
 
-## 4. 图片规范
+# 🖼 Images
 
-文章图片统一存放：
+## 06 · 图片统一管理
+
+每篇文章创建自己的图片目录：
 
 ```text
 static/img/posts/<slug>/
 ```
 
-推荐：
+推荐结构：
 
 ```text
-static/img/posts/attack-on-titan/cover.jpg
-static/img/posts/attack-on-titan/01.jpg
-static/img/posts/attack-on-titan/02.jpg
+static/img/posts/attack-on-titan/
+├── cover.jpg
+├── 01.jpg
+├── 02.jpg
+└── 03.jpg
 ```
 
-文章中引用：
+HTML 中：
 
 ```html
-<img src="/img/posts/attack-on-titan/01.jpg" alt="准确描述图片内容" loading="lazy">
+<figure class="article-figure article-figure-wide">
+  <img
+    src="/img/posts/attack-on-titan/01.jpg"
+    alt="夕阳下站在屋顶上的三笠"
+    loading="lazy"
+  >
+  <figcaption>走出墙外以后，自由反而变得更复杂。</figcaption>
+</figure>
 ```
 
-要求：
+### 图片规则
 
-- 必须填写有意义的 `alt`。
-- 非首屏图片使用 `loading="lazy"`。
-- 封面图必须同时写入 Front Matter 的 `image` 字段，否则首页卡片不会使用它。
-- 不要把 base64 图片直接塞入 HTML。
-- 不要引用随时可能失效的第三方图片热链；优先保存到本仓库 `static/img/posts/...`。
-- 用户已经提供图片时优先使用用户图片，不要擅自替换。
+- 封面必须同步写到 `image`
+- 图片必须有有意义的 `alt`
+- 非首屏图片使用 `loading="lazy"`
+- 不把 base64 直接塞进正文
+- 不依赖容易失效的第三方图片热链
+- 用户已经给图时，优先使用用户原图
 
-## 5. HTML 文章结构规范
+---
 
-正文最外层**不要再创建第二个站点容器**。Hugo 的 single layout 已经负责文章外框。
+# 🎨 Visual Language
 
-推荐使用这些原生标签：
+## 07 · 文章要“好看”，但不能抢戏
+
+文章页面的视觉目标：
+
+> **像杂志，不像 SaaS 落地页。**
+
+推荐：
+
+- 大图 + 正文
+- 图注
+- 双图布局
+- 引用
+- 少量重点文字
+- 适量留白
+- 清晰的二级标题
+- 段落不要太长
+
+### 推荐标签
 
 ```html
 <p></p>
@@ -126,7 +246,7 @@ static/img/posts/attack-on-titan/02.jpg
 <hr>
 ```
 
-如确实需要自定义图文布局，可以使用：
+需要自定义布局时：
 
 ```html
 <section class="article-scene">
@@ -134,142 +254,191 @@ static/img/posts/attack-on-titan/02.jpg
 </section>
 ```
 
-但 class 必须以 `article-` 开头，避免污染全站样式。
+自定义 class 必须以：
+
+```text
+article-
+```
+
+开头。
+
+---
+
+# 🚫 Global Style Safety
+
+## 08 · 单篇文章不能破坏整个网站
 
 禁止在文章中：
 
-- 使用固定定位覆盖全屏。
-- 修改 `html`、`body`、`.site-header`、`.hero` 等全局元素。
-- 写全局 `* {}` 样式。
-- 引入 React/Vue/Vite 等前端框架。
-- 引入不必要的第三方 JS。
-- 使用超大渐变标题、AI 常见霓虹按钮墙、无意义玻璃卡片堆叠。
+```text
+position: fixed 覆盖全屏
+修改 html / body
+修改 .site-header
+修改 .hero
+写全局 * {}
+引入 React / Vue / Vite
+引入无必要第三方 JS
+修改全站主题
+```
 
-## 6. 文章视觉风格
-
-文章本身应该让图片和内容成为主角，而不是让 UI 抢注意力。
-
-推荐：
-
-- 正文宽度保持适合阅读。
-- 图片可做宽图、双图或图注。
-- 二级标题简洁。
-- 段落不要太长。
-- 可适量使用引用、分隔线和重点文字。
-- 与站点现有深色、动态背景、Liquid Glass 风格兼容，但文章内部不要再次堆一层厚重玻璃面板。
-
-如果需要新增文章专用 CSS，应优先放到：
+如果文章确实需要专属样式：
 
 ```text
 static/css/article.css
 ```
 
-并保证全部选择器以 `.article-` 开头。
+并确保选择器全部使用：
 
-## 7. 文案规范
+```css
+.article-xxx {}
+```
 
-用户提供原始文字时：
+---
 
-1. 优先保留用户自己的表达和观点。
-2. 可以整理语序、补充小标题、拆段，但不要把全文改成标准 AI 议论文。
-3. 不要频繁使用以下模板化表达：
-   - “真正让我感动的是……”
-   - “这不仅仅是……更是……”
-   - “也许这就是……的意义”
-   - “在这个快节奏的时代……”
-4. 不要每一节最后都总结中心思想。
-5. 允许保留犹豫、偏好、吐槽和主观判断，个人博客不需要写成百科。
-6. 观后感重点写具体场景、角色、当时的感受和个人判断。
+# 📰 Example Layout
 
-## 8. 首页卡片兼容要求
+## 09 · 一个推荐的 HTML 文章结构
 
-首页文章卡片依赖 Hugo Page 参数：
+```html
+<figure class="article-figure article-figure-wide">
+  <img src="/img/posts/attack-on-titan/cover.jpg" alt="三笠站在夕阳下">
+  <figcaption>有些故事，看完以后反而更难说清楚。</figcaption>
+</figure>
 
-- `.Title`
-- `.Description`
-- `.Date`
-- `.Params.categories`
-- `.Params.image`
-- `.RelPermalink`
+<p>
+第一次看《进击的巨人》的时候，我一直觉得墙外就是自由。
+</p>
 
-因此每篇文章必须保证这些信息可用。
+<p>
+后来才发现，真正走到墙外以后，问题反而更多了。
+</p>
 
-新增文章后，不允许手写首页文章链接。首页应继续通过 Hugo 自动读取文章。
+<h2>墙外并不等于自由</h2>
 
-## 9. 路由与跳转验证（强制）
+<p>
+这里继续正文……
+</p>
 
-**新增文章后必须验证文章详情页真的生成，不能只看到首页卡片就认为完成。**
+<blockquote>
+有些人拼命想出去，有些人拼命想回家。
+</blockquote>
 
-至少执行：
+<figure class="article-figure">
+  <img src="/img/posts/attack-on-titan/02.jpg" alt="角色站在海边">
+</figure>
+
+<h2>我后来越来越能理解三笠</h2>
+
+<p>
+这里继续正文……
+</p>
+```
+
+---
+
+# 🔗 Routing
+
+## 10 · “能点开”是强制要求
+
+新增文章之后，必须确认详情页真的生成。
+
+执行：
 
 ```bash
 hugo --minify
 ```
 
-然后检查生成目录，例如：
+然后确认：
 
 ```text
 public/post/<slug>/index.html
 ```
 
-并检查首页生成的链接与该路径一致。
-
-如果是：
+例如：
 
 ```text
 content/post/attack-on-titan-thoughts.html
 ```
 
-预期 URL 通常为：
+应该生成：
+
+```text
+public/post/attack-on-titan-thoughts/index.html
+```
+
+对应 URL：
 
 ```text
 /post/attack-on-titan-thoughts/
 ```
 
-不得出现：
-
-- 首页能看到文章但点击 404。
-- 卡片链接指向不存在页面。
-- 大小写不一致导致 GitHub Pages 404。
-- 手写 `.html` URL 与 Hugo `RelPermalink` 冲突。
-
-GitHub Pages 部署后还应确认 Actions 中 `Deploy Hugo site to Pages` 成功。
-
-## 10. 新文章执行流程
-
-当用户说“帮我写一篇博客/把这些文字和图片做成文章”时，Agent 默认执行：
-
-1. 阅读 `AGENTS.md`。
-2. 检查用户提供的文字和图片。
-3. 确定分类与 slug。
-4. 图片整理到 `static/img/posts/<slug>/`。
-5. 创建 `content/post/<slug>.html`。
-6. 写完整 Front Matter。
-7. 根据素材生成自然的图文 HTML 正文。
-8. 不修改首页硬编码文章。
-9. 运行/检查 Hugo 构建。
-10. 检查 `public/post/<slug>/index.html` 是否存在。
-11. 检查首页卡片 href 是否指向正确文章 URL。
-12. 最后再提交代码。
-
-## 11. Markdown 仍然允许
-
-普通文字文章仍可使用：
+首页卡片必须使用 Hugo 自动生成的：
 
 ```text
-content/post/<slug>.md
+.RelPermalink
 ```
 
-但是当用户明确提出“根据文字和图片设计文章页面”“图文排版好看一点”“直接写 HTML”时，优先使用 `.html` 内容文章。
+### 绝对不能出现
 
-无论 `.md` 还是 `.html`，Front Matter、分类、图片、路由验证规则完全相同。
+- 首页有卡片但详情页 404
+- 手写错误 URL
+- slug 大小写不一致
+- `.html` 路径和 Hugo 路由冲突
+- 文章生成了但分类页找不到
 
-## 12. 修改现有文章
+---
 
-修改已有文章时：
+# 🧪 Verification Checklist
 
-- 不要随意改变 slug，否则旧链接会失效。
-- 不要删除 Front Matter 必需字段。
-- 不要因为修改正文而重做整个网站样式。
-- 图片路径变化时必须同步检查首页封面和正文图片。
-- 修改完成后仍然必须执行路由验证。
+## 11 · 完成文章前必须检查
+
+- [ ] Front Matter 完整
+- [ ] `categories` 使用正确分类
+- [ ] `image` 指向存在的封面
+- [ ] 正文图片路径有效
+- [ ] 图片有 `alt`
+- [ ] HTML 没有破坏全站样式
+- [ ] `hugo --minify` 成功
+- [ ] `public/post/<slug>/index.html` 存在
+- [ ] 首页卡片能看到文章
+- [ ] 首页卡片点击能进入详情
+- [ ] 分类页能看到文章
+- [ ] GitHub Pages Actions 部署成功
+- [ ] 手机端排版没有明显溢出
+
+---
+
+# 🤖 Agent Workflow
+
+## 12 · 用户说“帮我写一篇博客”时
+
+Agent 默认按下面流程执行：
+
+```text
+01  阅读 AGENTS.md
+02  阅读用户文字与图片
+03  确定分类
+04  确定 slug
+05  整理图片目录
+06  选择 Markdown 或 HTML
+07  写 Front Matter
+08  生成正文
+09  检查 AI 味
+10  Hugo 构建
+11  检查真实路由
+12  检查首页卡片
+13  检查分类页
+14  最后提交
+```
+
+---
+
+# ✦ Final Rule
+
+> **不要为了“看起来高级”而增加设计。**
+>
+> 好的文章页面应该让人先注意到：
+>
+> **图片、文字、故事和作者本人的想法。**
+>
+> 如果一个页面第一眼让人想到的是“这是 AI 生成的网站”，那就应该继续删东西，而不是继续加东西。
