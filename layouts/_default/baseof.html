@@ -8,9 +8,15 @@
   <link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
   <link rel="stylesheet" href="{{ "css/anime-bg.css" | relURL }}">
   <script src="{{ "js/site.js" | relURL }}" defer></script>
-  <script src="{{ "js/anime-bg.js" | relURL }}" defer></script>
 </head>
 <body>
+  <div class="global-video-bg" aria-hidden="true">
+    <video autoplay muted loop playsinline preload="auto">
+      <source src="https://sweezy-wallpapers.com/wallpapers/mikasa-ackerman-attack-on-titan-sunset-clouds-4k-live-wallpaper/downloads/video_2k" type="video/mp4">
+    </video>
+    <div class="global-video-shade"></div>
+    <div class="global-video-glow"></div>
+  </div>
   {{ partial "header.html" . }}
   <main>{{ block "main" . }}{{ end }}</main>
   {{ partial "footer.html" . }}
