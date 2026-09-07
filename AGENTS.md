@@ -12,10 +12,10 @@
 
 - 像真实的人写出来的博客
 - 有自己的判断、偏好、吐槽和细节
-- 图片与文字自然穿插
 - 页面舒服，阅读优先
 - 首页卡片、分类页、详情页全部正常
 - 保留现有站点的动态背景、导航和整体视觉
+- **文章封面图只承担“首页卡片 + 文章详情页背景”两个职责**
 
 ### ❌ 我们不要的
 
@@ -25,6 +25,7 @@
 - 一堆玻璃卡片互相套娃
 - 一篇文章单独做成另一个网站
 - 首页有卡片，点进去却 404
+- **文章正文再次重复展示封面图**
 
 ---
 
@@ -39,7 +40,6 @@ AI 可以做这些事：
 - 整理语序
 - 拆分长段落
 - 增加自然的小标题
-- 根据图片安排图文节奏
 - 补充必要过渡
 - 帮用户把零散想法整理成完整文章
 
@@ -75,7 +75,7 @@ AI 不应该做这些事：
 content/post/<slug>.md
 ```
 
-需要更漂亮的图文排版时，优先：
+需要更自由的排版时：
 
 ```text
 content/post/<slug>.html
@@ -84,7 +84,7 @@ content/post/<slug>.html
 例如：
 
 ```text
-content/post/attack-on-titan-thoughts.html
+content/post/code-geass-lelouch.html
 ```
 
 > `.html` 文章不是完整网页。
@@ -108,16 +108,15 @@ content/post/attack-on-titan-thoughts.html
 
 ```yaml
 ---
-title: "《进击的巨人》：自由的另一面"
-date: 2026-09-07T20:00:00+08:00
-description: "重新看完《进击的巨人》以后，我对自由、三笠和墙外世界的一些想法。"
+title: "《反叛的鲁路修》：如果结局从一开始就写好了"
+date: 2026-09-07T20:13:00+08:00
+description: "我喜欢鲁路修，不是因为他永远算得准，而是因为这个聪明、傲慢又狼狈的人，最后真的把自己也放进了棋盘。"
 categories:
   - 动漫
 tags:
-  - 进击的巨人
-  - 三笠
-  - 观后感
-image: "/img/posts/attack-on-titan/cover.jpg"
+  - 反叛的鲁路修
+  - 鲁路修
+image: "/img/posts/code-geass-lelouch/cover.jpg"
 ---
 ```
 
@@ -129,7 +128,9 @@ image: "/img/posts/attack-on-titan/cover.jpg"
 | `date` | 发布时间 |
 | `description` | 首页卡片和列表摘要 |
 | `categories` | 决定首页进入哪个栏目 |
-| `image` | 首页封面图 |
+| `image` | 首页封面 + 文章详情页背景 |
+
+> `image` 是文章的**唯一主视觉来源**。详情页模板会自动把它作为背景，因此正文中不要再次插入同一张封面。
 
 ---
 
@@ -166,78 +167,108 @@ Movies
 
 ---
 
-# 🖼 Images
+# 🖼 Cover & Background
 
-## 06 · 图片统一管理
+## 06 · 每篇文章只保留一张主视觉封面
 
-每篇文章创建自己的图片目录：
-
-```text
-static/img/posts/<slug>/
-```
-
-推荐结构：
+图片统一存放：
 
 ```text
-static/img/posts/attack-on-titan/
-├── cover.jpg
-├── 01.jpg
-├── 02.jpg
-└── 03.jpg
+static/img/posts/<slug>/cover.jpg
 ```
 
-HTML 中：
+例如：
+
+```text
+static/img/posts/code-geass-lelouch/cover.jpg
+```
+
+Front Matter：
+
+```yaml
+image: "/img/posts/code-geass-lelouch/cover.jpg"
+```
+
+这张 `cover.jpg` 必须同时用于：
+
+```text
+首页文章卡片
+        ↓
+文章详情页背景
+```
+
+### 详情页背景规则
+
+当用户点击文章进入详情页时：
+
+- 如果文章存在 `image`，详情页背景自动替换成该图片
+- 不再使用首页的默认三笠动态背景
+- 背景应 `cover` 铺满视口
+- 背景可以适度降低亮度、饱和度，保证正文可读
+- 必须保留遮罩层，避免浅色图片导致文字看不清
+- 背景固定在页面后方，滚动正文时保持稳定
+
+### 最重要的规则
+
+> **封面图已经作为详情页背景，因此正文中禁止再次展示封面图。**
+
+### ❌ 禁止
 
 ```html
-<figure class="article-figure article-figure-wide">
-  <img
-    src="/img/posts/attack-on-titan/01.jpg"
-    alt="夕阳下站在屋顶上的三笠"
-    loading="lazy"
-  >
-  <figcaption>走出墙外以后，自由反而变得更复杂。</figcaption>
+<figure>
+  <img src="/img/posts/code-geass-lelouch/cover.jpg">
 </figure>
 ```
 
-### 图片规则
+### ✅ 正确
 
-- 封面必须同步写到 `image`
-- 图片必须有有意义的 `alt`
-- 非首屏图片使用 `loading="lazy"`
-- 不把 base64 直接塞进正文
-- 不依赖容易失效的第三方图片热链
-- 用户已经给图时，优先使用用户原图
+```html
+<p>第一次看《反叛的鲁路修》的时候……</p>
+
+<h2>我喜欢的是那个不完美的鲁路修</h2>
+
+<p>正文继续……</p>
+```
+
+文章正文从文字直接开始。
+
+如果以后确实需要额外的剧情截图、插画或示意图，可以使用：
+
+```text
+static/img/posts/<slug>/01.jpg
+static/img/posts/<slug>/02.jpg
+```
+
+但这些属于**正文辅助图**，不能和 `cover.jpg` 重复。
 
 ---
 
 # 🎨 Visual Language
 
-## 07 · 文章要“好看”，但不能抢戏
+## 07 · 背景负责氛围，正文负责阅读
 
-文章页面的视觉目标：
+文章页面视觉目标：
 
-> **像杂志，不像 SaaS 落地页。**
+> **像一本放在动画海报前面的个人随笔，而不是传统新闻站文章页。**
 
 推荐：
 
-- 大图 + 正文
-- 图注
-- 双图布局
-- 引用
-- 少量重点文字
-- 适量留白
-- 清晰的二级标题
+- 大幅背景图承担作品氛围
+- 正文保持克制
+- 标题清晰
+- 内容区域有适度半透明底或阴影保证可读性
 - 段落不要太长
+- 二级标题简洁
+- 可以使用引用和少量强调
 
-### 推荐标签
+不要为了“丰富”页面而在正文顶部重新塞一张大封面。
+
+### 推荐正文标签
 
 ```html
 <p></p>
 <h2></h2>
 <h3></h3>
-<figure></figure>
-<img>
-<figcaption></figcaption>
 <blockquote></blockquote>
 <ul></ul>
 <ol></ol>
@@ -246,21 +277,14 @@ HTML 中：
 <hr>
 ```
 
-需要自定义布局时：
+只有存在真正需要说明的额外图片时，才使用：
 
 ```html
-<section class="article-scene">
-  ...
-</section>
+<figure class="article-figure">
+  <img src="/img/posts/<slug>/01.jpg" alt="准确的图片描述" loading="lazy">
+  <figcaption>必要的图片说明。</figcaption>
+</figure>
 ```
-
-自定义 class 必须以：
-
-```text
-article-
-```
-
-开头。
 
 ---
 
@@ -272,6 +296,7 @@ article-
 
 ```text
 position: fixed 覆盖全屏
+自行实现文章背景
 修改 html / body
 修改 .site-header
 修改 .hero
@@ -281,58 +306,51 @@ position: fixed 覆盖全屏
 修改全站主题
 ```
 
-如果文章确实需要专属样式：
+### 背景功能属于模板层
 
-```text
-static/css/article.css
+文章作者只负责：
+
+```yaml
+image: "/img/posts/<slug>/cover.jpg"
 ```
 
-并确保选择器全部使用：
+**不要在文章 HTML 中自己写背景 CSS。**
 
-```css
-.article-xxx {}
-```
+背景切换由 Hugo 的全局模板统一处理。
 
 ---
 
-# 📰 Example Layout
+# 📰 Example Article
 
-## 09 · 一个推荐的 HTML 文章结构
+## 09 · 推荐的 HTML 正文结构
 
 ```html
-<figure class="article-figure article-figure-wide">
-  <img src="/img/posts/attack-on-titan/cover.jpg" alt="三笠站在夕阳下">
-  <figcaption>有些故事，看完以后反而更难说清楚。</figcaption>
-</figure>
-
 <p>
-第一次看《进击的巨人》的时候，我一直觉得墙外就是自由。
+第一次看《反叛的鲁路修》，最容易记住的是那些很“爽”的东西：Geass、Zero、黑色骑士团……
 </p>
 
 <p>
-后来才发现，真正走到墙外以后，问题反而更多了。
+但隔一段时间再想，我最喜欢的反而不是“鲁路修有多聪明”。
 </p>
 
-<h2>墙外并不等于自由</h2>
+<h2>我喜欢的是那个不完美的鲁路修</h2>
 
 <p>
-这里继续正文……
+鲁路修有一种很奇怪的魅力……
 </p>
 
 <blockquote>
-有些人拼命想出去，有些人拼命想回家。
+如果鲁路修真的从头到尾都像一台完美的计算机，这个角色大概反而没那么有意思。
 </blockquote>
 
-<figure class="article-figure">
-  <img src="/img/posts/attack-on-titan/02.jpg" alt="角色站在海边">
-</figure>
-
-<h2>我后来越来越能理解三笠</h2>
+<h2>Zero 这个面具，比 Geass 更重要</h2>
 
 <p>
-这里继续正文……
+正文继续……
 </p>
 ```
+
+注意：**正文示例中没有封面 `<img>`。**
 
 ---
 
@@ -357,34 +375,26 @@ public/post/<slug>/index.html
 例如：
 
 ```text
-content/post/attack-on-titan-thoughts.html
+content/post/code-geass-lelouch.html
 ```
 
 应该生成：
 
 ```text
-public/post/attack-on-titan-thoughts/index.html
+public/post/code-geass-lelouch/index.html
 ```
 
 对应 URL：
 
 ```text
-/post/attack-on-titan-thoughts/
+/post/code-geass-lelouch/
 ```
 
-首页卡片必须使用 Hugo 自动生成的：
+首页卡片必须继续使用 Hugo 自动生成的：
 
 ```text
 .RelPermalink
 ```
-
-### 绝对不能出现
-
-- 首页有卡片但详情页 404
-- 手写错误 URL
-- slug 大小写不一致
-- `.html` 路径和 Hugo 路由冲突
-- 文章生成了但分类页找不到
 
 ---
 
@@ -394,17 +404,18 @@ public/post/attack-on-titan-thoughts/index.html
 
 - [ ] Front Matter 完整
 - [ ] `categories` 使用正确分类
-- [ ] `image` 指向存在的封面
-- [ ] 正文图片路径有效
-- [ ] 图片有 `alt`
-- [ ] HTML 没有破坏全站样式
+- [ ] `image` 指向真实存在的 `cover.jpg`
+- [ ] 首页卡片能看到封面
+- [ ] 进入详情页后背景自动切换为该文章封面
+- [ ] 详情页不再显示默认三笠背景
+- [ ] 正文中没有重复展示 `cover.jpg`
+- [ ] 背景遮罩足够，正文清晰可读
 - [ ] `hugo --minify` 成功
 - [ ] `public/post/<slug>/index.html` 存在
-- [ ] 首页卡片能看到文章
 - [ ] 首页卡片点击能进入详情
 - [ ] 分类页能看到文章
 - [ ] GitHub Pages Actions 部署成功
-- [ ] 手机端排版没有明显溢出
+- [ ] 手机端背景裁切与正文排版正常
 
 ---
 
@@ -416,29 +427,31 @@ Agent 默认按下面流程执行：
 
 ```text
 01  阅读 AGENTS.md
-02  阅读用户文字与图片
+02  阅读用户文字/主题
 03  确定分类
 04  确定 slug
-05  整理图片目录
-06  选择 Markdown 或 HTML
-07  写 Front Matter
-08  生成正文
+05  准备最具代表性的 cover.jpg
+06  保存到 static/img/posts/<slug>/cover.jpg
+07  将 cover 路径写入 Front Matter image
+08  生成文章正文，但不要把 cover 再插入正文
 09  检查 AI 味
 10  Hugo 构建
-11  检查真实路由
-12  检查首页卡片
-13  检查分类页
-14  最后提交
+11  检查详情页背景是否切成 cover
+12  检查正文有没有重复封面
+13  检查真实路由
+14  检查首页卡片
+15  检查分类页
+16  最后提交
 ```
 
 ---
 
 # ✦ Final Rule
 
-> **不要为了“看起来高级”而增加设计。**
+> **一篇文章，一张主视觉。**
 >
-> 好的文章页面应该让人先注意到：
+> 首页把它当封面，详情页把它当背景。
 >
-> **图片、文字、故事和作者本人的想法。**
+> **正文不再重复展示这张图。**
 >
-> 如果一个页面第一眼让人想到的是“这是 AI 生成的网站”，那就应该继续删东西，而不是继续加东西。
+> 背景负责氛围，文字负责内容。
