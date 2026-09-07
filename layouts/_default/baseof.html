@@ -11,7 +11,7 @@
 </head>
 <body>
   <div class="global-video-bg" aria-hidden="true">
-    <video autoplay muted loop playsinline preload="auto">
+    <video id="global-bg-video" autoplay muted loop playsinline preload="auto" poster="{{ "img/mikasa-sunset-poster.jpg" | relURL }}">
       <source src="{{ "video/mikasa-sunset.mp4" | relURL }}" type="video/mp4">
     </video>
     <div class="global-video-shade"></div>
@@ -20,5 +20,22 @@
   {{ partial "header.html" . }}
   <main>{{ block "main" . }}{{ end }}</main>
   {{ partial "footer.html" . }}
+  <script>
+    (() => {
+      const video = document.getElementById('global-bg-video');
+      if (!video) return;
+      video.muted = true;
+      video.defaultMuted = true;
+      const start = () => {
+        const p = video.play();
+        if (p && typeof p.catch === 'function') p.catch(() => {});
+      };
+      if (video.readyState >= 2) start();
+      else video.addEventListener('canplay', start, { once: true });
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) start();
+      });
+    })();
+  </script>
 </body>
 </html>
