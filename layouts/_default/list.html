@@ -1,0 +1,13 @@
+{{ define "main" }}
+<section class="page-hero shell">
+  <span class="eyebrow">COLLECTION</span><h1>{{ .Title }}</h1>{{ with .Description }}<p>{{ . }}</p>{{ end }}
+</section>
+<section class="shell listing">
+  {{ $pages := .Pages.ByDate.Reverse }}
+  {{ if $pages }}
+    <div class="story-grid">{{ range $pages }}{{ partial "article-card.html" (dict "page" . "fallback" "/img/study.svg") }}{{ end }}</div>
+    {{ template "_internal/pagination.html" . }}
+  {{ else }}<div class="empty-page"><h2>这里还没有内容</h2><p>新的收藏很快就会出现。</p></div>{{ end }}
+</section>
+{{ end }}
+

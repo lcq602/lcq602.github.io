@@ -1,0 +1,14 @@
+{{ $page := .page }}
+{{ $image := .fallback }}
+{{ with $page.Params.image }}{{ $image = . }}{{ end }}
+<article class="story-card">
+  <a class="story-image" href="{{ $page.RelPermalink }}"><img src="{{ $image | relURL }}" alt="{{ $page.Title }}" loading="lazy"></a>
+  <div class="story-body">
+    <div class="story-meta">
+      {{ with $page.Params.categories }}{{ with index . 0 }}<span>{{ . }}</span>{{ end }}{{ end }}
+      <time datetime="{{ $page.Date.Format "2006-01-02" }}">{{ $page.Date.Format "2006.01.02" }}</time>
+    </div>
+    <h3><a href="{{ $page.RelPermalink }}">{{ $page.Title }}</a></h3>
+    <p>{{ with $page.Description }}{{ . }}{{ else }}{{ $page.Summary | plainify | truncate 76 }}{{ end }}</p>
+  </div>
+</article>

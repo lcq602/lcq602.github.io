@@ -1,0 +1,56 @@
+{{ define "main" }}
+{{ $posts := where site.RegularPages "Section" "post" }}
+<section class="hero">
+  <div class="shell hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow">LIN YUN'S COLLECTION</span>
+      <h1>记录喜欢的作品，<br><em>也记录正在成长的自己。</em></h1>
+      <p>电影带我看见别人的人生，动漫保存想象力，学习让每一天都比昨天更辽阔。</p>
+      <div class="hero-actions">
+        <a class="button primary" href="#collections">开始浏览</a>
+        <a class="button ghost" href="{{ "/archive/" | relURL }}">全部内容</a>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="poster poster-one"><span>电影</span><strong>光影与故事</strong></div>
+      <div class="poster poster-two"><span>动漫</span><strong>想象无边界</strong></div>
+      <div class="poster poster-three"><span>学习</span><strong>持续地成长</strong></div>
+    </div>
+  </div>
+</section>
+
+<section class="shell intro-strip" id="collections">
+  <div><strong>03</strong><span>内容分类</span></div>
+  <p>把最近写下的内容，按兴趣整理成清晰的收藏。</p>
+  <a href="{{ "/categories/" | relURL }}">浏览全部分类 →</a>
+</section>
+
+{{ $sections := slice
+  (dict "name" "电影" "id" "movie" "label" "CINEMA" "desc" "银幕内外，那些值得反复回味的故事。" "fallback" "/img/movie.svg")
+  (dict "name" "动漫" "id" "anime" "label" "ANIMATION" "desc" "热爱、幻想与永远不会褪色的少年心。" "fallback" "/img/anime.svg")
+  (dict "name" "学习" "id" "study" "label" "LEARNING" "desc" "读书、实践，以及每一次认真弄懂。" "fallback" "/img/study.svg")
+}}
+{{ range $sections }}
+  {{ $section := . }}
+  {{ $items := where $posts "Params.categories" "intersect" (slice $section.name) }}
+  <section class="collection collection-{{ $section.id }}">
+    <div class="shell">
+      <div class="section-heading">
+        <div><span>{{ $section.label }}</span><h2>{{ $section.name }}</h2><p>{{ $section.desc }}</p></div>
+        <a href="{{ printf "/categories/%s/" $section.name | relURL }}">查看更多 <b>↗</b></a>
+      </div>
+      {{ if $items }}
+        <div class="story-grid">
+          {{ range first 4 $items.ByDate.Reverse }}{{ partial "article-card.html" (dict "page" . "fallback" $section.fallback) }}{{ end }}
+        </div>
+      {{ else }}
+        <div class="empty-collection">
+          <img src="{{ $section.fallback | relURL }}" alt="">
+          <div><span>COMING SOON</span><h3>{{ $section.name }}收藏正在整理</h3><p>发布第一篇“{{ $section.name }}”分类文章后，它会自动出现在这里。</p></div>
+        </div>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}
+{{ end }}
+

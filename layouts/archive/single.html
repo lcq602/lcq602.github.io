@@ -1,0 +1,11 @@
+{{ define "main" }}
+<section class="page-hero shell"><span class="eyebrow">ARCHIVE</span><h1>文章归档</h1><p>按时间保存所有写下的内容。</p></section>
+<section class="shell archive-list">
+  {{ $posts := where site.RegularPages "Section" "post" }}
+  {{ range $posts.GroupByDate "2006" }}
+    <div class="archive-year"><h2>{{ .Key }}</h2><div>
+      {{ range .Pages }}<a href="{{ .RelPermalink }}"><time>{{ .Date.Format "01.02" }}</time><span>{{ .Title }}</span></a>{{ end }}
+    </div></div>
+  {{ else }}<div class="empty-page"><h2>还没有文章</h2><p>发布内容后，这里会自动形成时间归档。</p></div>{{ end }}
+</section>
+{{ end }}

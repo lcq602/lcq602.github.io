@@ -1,0 +1,13 @@
+{{ define "main" }}
+<article class="article shell">
+  <header class="article-header">
+    <div class="story-meta">
+      {{ with .Params.categories }}{{ with index . 0 }}<span>{{ . }}</span>{{ end }}{{ end }}
+      {{ with .Date }}<time datetime="{{ .Format "2006-01-02" }}">{{ .Format "2006年01月02日" }}</time>{{ end }}
+    </div>
+    <h1>{{ .Title }}</h1>{{ with .Description }}<p>{{ . }}</p>{{ end }}
+  </header>
+  {{ with .Params.image }}<img class="article-cover" src="{{ . | relURL }}" alt="">{{ end }}
+  <div class="article-content">{{ .Content }}</div>
+</article>
+{{ end }}
