@@ -1,0 +1,32 @@
+name: Import Code Geass cover
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/import-code-geass-cover.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  import-cover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download representative Lelouch artwork
+        run: |
+          mkdir -p static/img/posts/code-geass-lelouch
+          curl -L --fail --retry 3 \
+            -A 'Mozilla/5.0' \
+            'https://animekabegami.com/image_wallpaper/1453821916.jpg' \
+            -o static/img/posts/code-geass-lelouch/cover.jpg
+          file static/img/posts/code-geass-lelouch/cover.jpg
+          test -s static/img/posts/code-geass-lelouch/cover.jpg
+      - name: Commit cover
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add static/img/posts/code-geass-lelouch/cover.jpg
+          git diff --cached --quiet || git commit -m 'add Code Geass Lelouch cover image'
+          git push
