@@ -1,0 +1,32 @@
+name: Build Mikasa poster
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-mikasa-poster.yml'
+      - 'static/video/mikasa-sunset.mp4'
+
+permissions:
+  contents: write
+
+jobs:
+  build-poster:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate poster from video
+        run: |
+          mkdir -p static/img
+          ffmpeg -y -ss 0.35 -i static/video/mikasa-sunset.mp4 -frames:v 1 -q:v 2 static/img/mikasa-sunset-poster.jpg
+      - name: Commit poster
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add static/img/mikasa-sunset-poster.jpg
+          if git diff --cached --quiet; then
+            echo "Poster unchanged"
+            exit 0
+          fi
+          git commit -m "add Mikasa video poster fallback"
+          git push
