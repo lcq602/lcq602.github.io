@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
   <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} · {{ site.Title }}{{ end }}</title>
-  <link rel="stylesheet" href="{{ "css/site.css" | relURL }}?v=202609072005">
-  <link rel="stylesheet" href="{{ "css/anime-bg.css" | relURL }}?v=202609072005">
+  <link rel="stylesheet" href="{{ "css/site.css" | relURL }}?v=202609072025">
+  <link rel="stylesheet" href="{{ "css/anime-bg.css" | relURL }}?v=202609072025">
   <style>
     html{background:#070812!important}
     body{background:transparent!important;position:relative!important;min-height:100vh!important}
@@ -15,20 +15,29 @@
     .global-video-poster{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;z-index:0!important;display:block!important;opacity:1!important}
     .global-video-bg video{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-width:100%!important;min-height:100%!important;object-fit:cover!important;object-position:center!important;z-index:1!important;display:block!important;opacity:1!important;transform:none!important;filter:saturate(.98) contrast(1.03) brightness(.9)!important}
     .global-video-shade{position:absolute!important;inset:0!important;z-index:2!important;background:linear-gradient(90deg,rgba(3,5,12,.48),rgba(5,7,15,.16) 50%,rgba(4,6,13,.28)),linear-gradient(180deg,rgba(6,8,18,.05),rgba(4,5,12,.34))!important}
+    .article-background .global-video-poster{filter:saturate(.9) contrast(1.03) brightness(.72)!important}
+    .article-background .global-video-shade{background:linear-gradient(90deg,rgba(5,6,13,.62),rgba(6,7,15,.30) 52%,rgba(5,6,13,.48)),linear-gradient(180deg,rgba(4,5,12,.24),rgba(4,5,12,.52))!important}
     .global-video-glow{display:none!important}
     .site-header,main,.site-footer{position:relative!important;z-index:10!important}
     .hero,.collection,.page-hero,.listing,.article,.archive-list{background:transparent!important}
   </style>
-  <script src="{{ "js/site.js" | relURL }}?v=202609072005" defer></script>
+  <script src="{{ "js/site.js" | relURL }}?v=202609072025" defer></script>
 </head>
 <body>
+  {{ if and .IsPage .Params.image }}
+  <div class="global-video-bg article-background" aria-hidden="true">
+    <img class="global-video-poster" src="{{ .Params.image | relURL }}" alt="">
+    <div class="global-video-shade"></div>
+  </div>
+  {{ else }}
   <div class="global-video-bg" aria-hidden="true">
-    <img class="global-video-poster" src="{{ "img/mikasa-sunset-poster.jpg" | relURL }}?v=202609072005" alt="">
-    <video id="global-bg-video" autoplay muted loop playsinline preload="auto" poster="{{ "img/mikasa-sunset-poster.jpg" | relURL }}?v=202609072005">
-      <source src="{{ "video/mikasa-sunset.mp4" | relURL }}?v=202609072005" type="video/mp4">
+    <img class="global-video-poster" src="{{ "img/mikasa-sunset-poster.jpg" | relURL }}?v=202609072025" alt="">
+    <video id="global-bg-video" autoplay muted loop playsinline preload="auto" poster="{{ "img/mikasa-sunset-poster.jpg" | relURL }}?v=202609072025">
+      <source src="{{ "video/mikasa-sunset.mp4" | relURL }}?v=202609072025" type="video/mp4">
     </video>
     <div class="global-video-shade"></div>
   </div>
+  {{ end }}
   {{ partial "header.html" . }}
   <main>{{ block "main" . }}{{ end }}</main>
   {{ partial "footer.html" . }}
