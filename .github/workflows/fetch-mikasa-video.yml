@@ -1,0 +1,63 @@
+name: Import Mikasa background video
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/fetch-mikasa-video.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import-video:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download Mikasa sunset video
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p static/video
+          PAGE='https://sweezy-wallpapers.com/wallpapers/mikasa-ackerman-attack-on-titan-sunset-clouds-4k-live-wallpaper'
+          URL_2K="$PAGE/downloads/video_2k"
+          URL_HD="$PAGE/downloads/video_hd"
+
+          download() {
+            curl --fail --location --retry 3 --retry-delay 2 \
+              --user-agent 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/151 Safari/537.36' \
+              --referer "$PAGE" \
+              --header 'Accept: video/mp4,video/*;q=0.9,*/*;q=0.8' \
+              "$1" -o static/video/mikasa-sunset.mp4
+          }
+
+          if ! download "$URL_2K"; then
+            echo '2K download failed; trying HD.'
+            download "$URL_HD"
+          fi
+
+          bytes=$(wc -c < static/video/mikasa-sunset.mp4)
+          echo "Downloaded $bytes bytes"
+          test "$bytes" -gt 50000
+          head -c 32 static/video/mikasa-sunset.mp4 | strings | grep -Eq 'ftyp|isom|mp4' || {
+            echo 'Downloaded file does not look like MP4'; exit 1;
+          }
+
+      - name: Commit video
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add static/video/mikasa-sunset.mp4
+          if git diff --cached --quiet; then
+            echo 'Video already up to date.'
+            exit 0
+          fi
+          git commit -m 'add Mikasa sunset background video'
+          git push origin HEAD:main
