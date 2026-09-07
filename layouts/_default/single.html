@@ -7,7 +7,6 @@
     </div>
     <h1>{{ .Title }}</h1>{{ with .Description }}<p>{{ . }}</p>{{ end }}
   </header>
-  {{ with .Params.image }}<img class="article-cover" src="{{ . | relURL }}" alt="">{{ end }}
   <div class="article-content">{{ .Content }}</div>
 </article>
 {{ end }}
