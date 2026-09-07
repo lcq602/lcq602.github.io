@@ -1,209 +1,33 @@
 # ✦ Lin Yun Blog · AI Authoring Guide
 
-> **Purpose**  
-> 这是一套博客内容与页面生成规范。目标是让文章自然、好看、能读、能点开，并保持统一的个人博客风格。
+> 目标：写得像真实个人博客，内容优先，视觉克制；所有文章共享站点模板，不把单篇文章做成独立网站。
 
----
+## 01 · 开始写文章前，先确认背景资源
 
-## 01 · 先记住这件事
+用户要求新增文章时，在开始制作页面前先问一次：
 
-### ✅ 我们要的
+> **你已经有想用的 MP4 视频或图片资源，还是需要我帮你找？**
 
-- 像真实的人写出来的博客
-- 有自己的判断、偏好、吐槽和细节
-- 页面舒服，阅读优先
-- 首页卡片、分类页、详情页全部正常
-- 保留现有站点的导航和整体视觉
-- 文章详情页优先使用作品相关 **MP4 视频背景**
-- 没有视频时再使用文章 `image` 作为静态背景
-- 视频和主视觉图片都只承担背景/封面职责，不进入正文重复展示
+规则：
 
-### ❌ 我们不要的
+1. 用户已有资源 → 优先使用用户提供的资源。
+2. 用户要求代找 → 优先寻找适合作为背景的 MP4；没有合适视频时再找代表性图片。
+3. 不要为了使用视频而使用质量差、过大、比例错误或来源不稳定的视频。
+4. 背景资源必须保存到仓库本地，不依赖第三方热链。
+5. 在提交前验证资源真实存在、可访问；MP4 还要验证能正常播放。
 
-- AI 产品官网感
-- 巨大的渐变标题
-- “不仅仅是……更是……”式套话
-- 一堆玻璃卡片互相套娃
-- 一篇文章单独做成另一个网站
-- 首页有卡片，点进去却 404
-- 正文重复展示背景视频或主视觉封面图
-- 在正文里直接放 `<video controls>`
+## 02 · 内容与分类
 
----
-
-# ✍️ Article Philosophy
-
-## 02 · 写作应该像“人”，不是像“模型”
-
-文章优先保留用户自己的表达。
-
-AI 可以整理语序、拆分长段落、增加自然的小标题、补充必要过渡，但不要把文章洗成模板化议论文，也不要强行升华。
-
-避免高频 AI 句式，例如：
-
-> “真正让我感动的是……”  
-> “这不仅仅是……更是……”  
-> “也许这就是……的意义。”
-
-可以有情绪，但要具体：**写场景、角色、瞬间、选择、当时的感觉。**
-
----
-
-# 🧭 Media First
-
-## 03 · 写文章之前，先确认背景资源
-
-当用户要求新增一篇电影、动漫、学习或其他内容文章时，**在开始制作页面前先确认背景资源来源**。
-
-必须先问用户：
-
-> **你已经有这篇文章要用的 MP4 视频或图片资源，还是需要我帮你在网上找？**
-
-处理顺序：
-
-```text
-用户已有 MP4
-    ↓
-优先使用用户视频
-
-用户没有 MP4，但有图片
-    ↓
-使用用户图片
-
-用户没有资源，并要求 AI 帮忙找
-    ↓
-优先寻找合适的 MP4
-    ↓
-找不到合适 MP4
-    ↓
-再寻找代表性图片
-```
-
-如果用户明确说“不需要问，直接找”，可以直接执行，不要重复确认。
-
----
-
-# 🎬 Background Priority
-
-## 04 · 详情页背景优先级
-
-文章详情页统一遵循：
-
-```text
-video (.mp4)
-   ↓ 没有
-image
-   ↓ 没有
-站点默认背景
-```
-
-也就是说：
-
-1. 存在 `video` → **必须优先播放 MP4 背景**
-2. 没有 `video`，但存在 `image` → 使用图片背景
-3. 两者都没有 → 使用站点默认三笠动态背景
-
-### 视频当前只允许做背景
-
-`video` 目前只用于文章详情页背景：
-
-- autoplay
-- muted
-- loop
-- playsinline
-- 不显示 controls
-- 不进入正文
-- 不作为独立播放器
-- 不在正文中再次插入
-
-视频属于模板层背景资源，而不是文章正文内容。
-
----
-
-# 🗂 Content Structure
-
-## 05 · 文章与资源目录
-
-文章：
+文章放在：
 
 ```text
 content/post/<slug>.md
 content/post/<slug>.html
 ```
 
-图片：
+HTML Content 不是完整网页，禁止写 `<!doctype html>`、`<html>`、`<head>`、`<body>`。
 
-```text
-static/img/posts/<slug>/
-```
-
-视频：
-
-```text
-static/video/posts/<slug>/
-```
-
-推荐：
-
-```text
-content/post/code-geass-lelouch.html
-
-static/img/posts/code-geass-lelouch/
-└── cover.jpg
-
-static/video/posts/code-geass-lelouch/
-└── background.mp4
-```
-
-不要把正文资源散落到无关目录。
-
----
-
-# 🧾 Front Matter
-
-## 06 · 推荐元信息
-
-有视频时：
-
-```yaml
----
-title: "《反叛的鲁路修》：如果结局从一开始就写好了"
-date: 2026-09-07T20:13:00+08:00
-description: "我喜欢鲁路修，不是因为他永远算得准，而是因为这个聪明、傲慢又狼狈的人，最后真的把自己也放进了棋盘。"
-categories:
-  - 动漫
-tags:
-  - 反叛的鲁路修
-  - 鲁路修
-image: "/img/posts/code-geass-lelouch/cover.jpg"
-video: "/video/posts/code-geass-lelouch/background.mp4"
----
-```
-
-只有图片时：
-
-```yaml
-image: "/img/posts/code-geass-lelouch/cover.jpg"
-```
-
-### 字段职责
-
-| 字段 | 用途 |
-|---|---|
-| `title` | 文章标题 |
-| `date` | 发布时间 |
-| `description` | 首页卡片和列表摘要 |
-| `categories` | 首页分类 |
-| `image` | 首页卡片封面；无 video 时兼任详情页背景；有 video 时可作为视频 poster/fallback |
-| `video` | 文章详情页最高优先级背景，只支持 MP4 |
-
-`image` 即使有 `video` 也推荐保留，因为首页文章卡片仍需要静态封面，同时它可以作为视频加载前的 poster/fallback。
-
----
-
-# 🧭 Categories
-
-## 07 · 当前一级分类
+一级分类只允许：
 
 ```text
 电影
@@ -211,101 +35,146 @@ image: "/img/posts/code-geass-lelouch/cover.jpg"
 学习
 ```
 
-必须完全一致。
+写作要保留个人判断、具体场景和自然表达。避免 AI 产品官网感、模板化升华、巨型渐变标题、玻璃卡片套娃和空洞套话。
 
----
+## 03 · 文章背景资源目录
 
-# 🫥 Hidden Media Rule
-
-## 08 · 背景资源必须从正文中隐藏
-
-所谓“隐藏”是指：**背景资源由 Hugo 模板在正文之外渲染，文章内容本身不展示它。**
-
-因此正文中禁止写：
-
-```html
-<img src="/img/posts/<slug>/cover.jpg">
-<video src="/video/posts/<slug>/background.mp4"></video>
-<video controls>...</video>
-```
-
-Markdown 中也不要再次写：
-
-```md
-![封面](/img/posts/<slug>/cover.jpg)
-```
-
-### 正确正文
-
-```html
-<p>第一次看《反叛的鲁路修》的时候……</p>
-<h2>我喜欢的是那个不完美的鲁路修</h2>
-<p>正文继续……</p>
-```
-
-如果确实需要额外剧情截图，可以使用：
+每篇文章的视觉资源按 slug 分目录：
 
 ```text
-static/img/posts/<slug>/01.jpg
-static/img/posts/<slug>/02.jpg
+static/
+├── img/posts/<slug>/
+│   ├── cover.jpg          # 首页封面、视频 poster、图片背景 fallback
+│   └── 01.jpg             # 可选正文辅助图
+└── video/posts/<slug>/
+    └── background.mp4     # 可选文章动态背景
 ```
 
-这些属于正文辅助图，不是 `cover.jpg`，也不是背景视频。
+例如：
 
----
+```text
+static/img/posts/code-geass-lelouch/cover.jpg
+static/video/posts/code-geass-lelouch/background.mp4
+```
 
-# 🎨 Visual Language
+## 04 · Front Matter 统一字段
 
-## 09 · 背景负责氛围，正文负责阅读
-
-目标：
-
-> **像一本放在作品画面前面的个人随笔，而不是视频播放器，也不是 SaaS 落地页。**
-
-背景视频或图片应：
-
-- 铺满视口
-- 保持在正文后方
-- 有遮罩保证文字清晰
-- 视频静音循环
-- 不抢交互焦点
-- 移动端保持可用
-
-正文保持克制，重点是标题、段落、引用和个人观点。
-
----
-
-# 🚫 Global Style Safety
-
-## 10 · 背景功能属于模板层
-
-文章作者只负责 Front Matter：
+推荐：
 
 ```yaml
-image: "/img/posts/<slug>/cover.jpg"
-video: "/video/posts/<slug>/background.mp4"
+---
+title: "文章标题"
+date: 2026-09-07T20:00:00+08:00
+description: "自然、简短的文章摘要。"
+categories:
+  - 动漫
+tags:
+  - 示例
+image: "/img/posts/example/cover.jpg"
+video: "/video/posts/example/background.mp4"
+background_position: "62% center"
+background_brightness: 0.72
+---
 ```
 
-不要在单篇文章中自行实现：
+字段职责：
+
+| 字段 | 用途 |
+|---|---|
+| `image` | 首页卡片封面；文章图片背景；视频 poster/fallback |
+| `video` | 文章详情页动态背景，存在时优先于 image |
+| `background_position` | 控制人物/主体裁切位置，默认 `center center` |
+| `background_brightness` | 背景亮度，默认 `0.72`，通常建议 `0.55 ~ 0.85` |
+
+Hugo 支持通过 Front Matter 自定义参数控制模板，因此文章级视觉差异应放在这些参数中，而不是每篇文章自己写 CSS。
+
+## 05 · 背景选择优先级
+
+详情页统一遵循：
 
 ```text
-position: fixed 全屏背景
-body/html 背景
-视频 autoplay JS
-全局 CSS
-.site-header / .hero 修改
-React / Vue / Vite
+video (MP4)
+   ↓ 没有
+image
+   ↓ 没有
+站点默认背景
 ```
 
-背景选择、播放、遮罩、fallback 均由 Hugo 全局模板处理。
+如果同时存在 `video` 和 `image`：
 
----
+- 桌面端优先播放 MP4。
+- `image` 同时作为 poster 和 fallback，避免视频加载前黑屏。
+- 手机端（当前断点 ≤ 760px）自动隐藏背景视频并使用 `image`，降低流量、耗电和发热。
+- 用户启用 `prefers-reduced-motion` 时同样退回静态 `image`。
+- MP4 只用于背景：`autoplay + muted + loop + playsinline`，禁止显示 controls。
 
-# 🔗 Routing
+如果提供 `video`，原则上也应提供 `image`，确保移动端和加载失败时仍有主视觉。
 
-## 11 · “能点开”是强制要求
+## 06 · 背景永远不进入正文
 
-新增文章之后执行：
+`image` 和 `video` 属于模板背景资源，不属于文章正文。
+
+禁止重复：
+
+```html
+<img src="/img/posts/example/cover.jpg">
+<video src="/video/posts/example/background.mp4" controls></video>
+```
+
+正文从文字直接开始。视频目前**只允许做背景**，不要在正文中做播放器。
+
+正文确实需要截图时，可使用 `01.jpg`、`02.jpg` 等独立辅助图，但不能重复 `cover.jpg`。
+
+## 07 · 背景视觉参数怎么选
+
+`background_position` 要根据主体位置调整：
+
+```yaml
+background_position: "center center"
+background_position: "65% center"
+background_position: "35% 40%"
+```
+
+人物在右侧时可适当提高横向百分比；人物在左侧则降低。必须实际查看裁切结果，不能机械套值。
+
+`background_brightness` 默认：
+
+```yaml
+background_brightness: 0.72
+```
+
+背景很亮时降低，背景很暗时适度提高。正文可读性优先于展示原图亮度。
+
+## 08 · 性能规则
+
+- MP4 尽量使用 H.264、16:9、无音频或静音背景素材。
+- 背景视频应该短、可自然循环，并尽量控制文件体积。
+- 不要用 20MB、50MB 的视频只为了几秒背景效果。
+- 视频使用 `preload="metadata"`，避免页面一打开就强制预载完整文件。
+- 移动端和 reduced-motion 默认静态 fallback。
+- 图片应控制合理分辨率和体积，不使用 base64。
+- 不使用脆弱的第三方图片/视频热链。
+
+## 09 · 单篇文章不能破坏全站
+
+禁止文章自行：
+
+```text
+position: fixed 覆盖全屏
+修改 html / body
+修改 .site-header / .hero
+实现自己的背景系统
+写全局 * {}
+引入 React / Vue / Vite
+引入不必要第三方 JS
+修改整站主题
+```
+
+背景、遮罩、视频播放、移动端 fallback 全部属于 Hugo 模板层。
+
+## 10 · 路由与构建
+
+完成后执行：
 
 ```bash
 hugo --minify
@@ -317,64 +186,54 @@ hugo --minify
 public/post/<slug>/index.html
 ```
 
-首页卡片必须继续使用 Hugo 的 `.RelPermalink`。
+首页文章卡片必须使用 `.RelPermalink`，并实际验证首页和分类页能点进详情。
 
----
-
-# 🧪 Verification Checklist
-
-## 12 · 完成前必须检查
-
-- [ ] 写文章前已经确认用户资源来源，或用户明确授权 AI 自行寻找
-- [ ] 如果有合适 MP4，已优先使用 `video`
-- [ ] `video` 必须是 `.mp4`
-- [ ] 视频保存在 `static/video/posts/<slug>/`
-- [ ] 图片保存在 `static/img/posts/<slug>/`
-- [ ] `image` 指向真实文件
-- [ ] `video` 指向真实文件（如果有）
-- [ ] 有 video 时详情页播放 video 背景
-- [ ] 没有 video 时详情页使用 image 背景
-- [ ] video/image 没有出现在正文中
-- [ ] 首页卡片有正常封面
-- [ ] 背景遮罩足够，正文清晰可读
-- [ ] `hugo --minify` 成功
-- [ ] `public/post/<slug>/index.html` 存在
-- [ ] 首页卡片点击能进入详情
-- [ ] 分类页能看到文章
-- [ ] GitHub Pages Actions 部署成功
-- [ ] 手机端正常
-
----
-
-# 🤖 Agent Workflow
-
-## 13 · 用户说“帮我写一篇博客”时
+## 11 · Agent 标准工作流
 
 ```text
 01  阅读 AGENTS.md
-02  明确主题与分类
-03  询问：用户已有 MP4/图片，还是需要 AI 帮忙找
-04  有 MP4 → 优先采用
-05  无 MP4 → 再采用图片
-06  保存 MP4 到 static/video/posts/<slug>/background.mp4
-07  保存封面到 static/img/posts/<slug>/cover.jpg
-08  写入 Front Matter video / image
-09  生成正文，禁止重复插入背景资源
-10  检查 AI 味
-11  Hugo 构建
-12  验证 video > image > default 的背景优先级
-13  检查真实路由、首页卡片和分类页
-14  最后提交
+02  询问用户：已有 MP4/图片，还是需要代找？
+03  确定主题、分类、slug
+04  优先准备 background.mp4；没有合适视频再使用 cover.jpg
+05  无论是否有视频，都尽量准备 cover.jpg 作为首页封面和 fallback
+06  保存资源到 static/video/posts/<slug>/ 与 static/img/posts/<slug>/
+07  验证 MP4/图片文件真实有效
+08  填写 image / video
+09  根据主体位置设置 background_position
+10  根据可读性设置 background_brightness
+11  写正文，不重复插入背景资源
+12  检查 AI 味和移动端阅读
+13  hugo --minify
+14  验证详情页路由
+15  验证桌面端 video-first
+16  验证移动端 image fallback
+17  验证首页卡片和分类页
+18  提交并确认 GitHub Pages 部署
 ```
 
----
+## 12 · 完成检查清单
+
+- [ ] 已询问用户资源来源
+- [ ] `image` 指向真实文件
+- [ ] 有 `video` 时 MP4 指向真实且可播放文件
+- [ ] video 存在时同时有 image fallback
+- [ ] 桌面详情页优先视频
+- [ ] 手机端退回图片
+- [ ] reduced-motion 退回图片
+- [ ] 视频无 controls、无正文播放器
+- [ ] 正文没有重复 cover/background.mp4
+- [ ] 主体没有被 `cover` 裁掉
+- [ ] 背景亮度不影响阅读
+- [ ] 首页封面正常
+- [ ] 详情页正常
+- [ ] 分类页正常
+- [ ] `hugo --minify` 成功
+- [ ] GitHub Pages 部署成功
 
 # ✦ Final Rule
 
-> **有视频，优先视频；没有视频，再用图片。**
+> **视频优先，图片兜底；移动端优先体验。**
 >
-> 视频目前只做背景。
+> 背景资源负责氛围，正文只负责内容。
 >
-> 图片负责首页封面和视频 fallback，也可以在没有视频时承担详情页背景。
->
-> **背景资源不进入正文。**
+> 所有视觉差异通过统一 Front Matter 参数交给模板处理，不在单篇文章里重复造页面结构。
