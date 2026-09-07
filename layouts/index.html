@@ -11,10 +11,26 @@
         <a class="button ghost" href="{{ "/archive/" | relURL }}">全部内容</a>
       </div>
     </div>
-    <div class="hero-art" aria-hidden="true">
-      <div class="poster poster-one"><span>电影</span><strong>光影与故事</strong></div>
-      <div class="poster poster-two"><span>动漫</span><strong>想象无边界</strong></div>
-      <div class="poster poster-three"><span>学习</span><strong>持续地成长</strong></div>
+    <div class="hero-carousel" data-carousel aria-label="精选分类轮播">
+      <div class="carousel-viewport">
+        <a class="carousel-slide is-active" href="{{ "/categories/电影/" | relURL }}">
+          <img src="{{ "/img/interstellar.jpg" | relURL }}" alt="星际穿越主题图">
+          <span class="carousel-shade"></span><span class="carousel-copy"><small>CINEMA · 电影</small><strong>《星际穿越》</strong><em>穿越时间与群星，寻找回家的方向</em></span>
+        </a>
+        <a class="carousel-slide" href="{{ "/categories/动漫/" | relURL }}">
+          <img src="{{ "/img/fullmetal-alchemist.jpg" | relURL }}" alt="钢之炼金术师主题图">
+          <span class="carousel-shade"></span><span class="carousel-copy"><small>ANIMATION · 动漫</small><strong>《钢之炼金术师》</strong><em>等价交换、兄弟羁绊与漫长旅途</em></span>
+        </a>
+        <a class="carousel-slide" href="{{ "/categories/学习/" | relURL }}">
+          <img src="{{ "/img/godot-2d-skeleton.jpg" | relURL }}" alt="Godot 2D 骨骼动画主题图">
+          <span class="carousel-shade"></span><span class="carousel-copy"><small>LEARNING · GODOT</small><strong>Godot 2D 骨骼动画</strong><em>从角色拆分、骨骼绑定到动画制作</em></span>
+        </a>
+      </div>
+      <button class="carousel-arrow carousel-prev" type="button" aria-label="上一张">‹</button>
+      <button class="carousel-arrow carousel-next" type="button" aria-label="下一张">›</button>
+      <div class="carousel-dots" aria-label="选择轮播图片">
+        <button class="is-active" type="button" aria-label="第 1 张"></button><button type="button" aria-label="第 2 张"></button><button type="button" aria-label="第 3 张"></button>
+      </div>
     </div>
   </div>
 </section>
@@ -53,4 +69,3 @@
   </section>
 {{ end }}
 {{ end }}
-

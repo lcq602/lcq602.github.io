@@ -6,6 +6,7 @@
   <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
   <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} · {{ site.Title }}{{ end }}</title>
   <link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
+  <script src="{{ "js/site.js" | relURL }}" defer></script>
 </head>
 <body>
   {{ partial "header.html" . }}
