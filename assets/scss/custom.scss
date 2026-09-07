@@ -1,0 +1,51 @@
+:root {
+    --sys-font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "PingFang SC", "Microsoft YaHei", sans-serif;
+    --base-font-family: var(--sys-font-family);
+    --accent-color: #6366f1;
+    --accent-color-darker: #4f46e5;
+    --accent-color-text: #ffffff;
+    --body-background: #f3f4f8;
+    --card-border-radius: 18px;
+    --article-line-height: 1.9;
+    --shadow-l1: 0 8px 24px rgba(15, 23, 42, 0.06);
+    --shadow-l2: 0 18px 42px rgba(15, 23, 42, 0.1);
+
+    &[data-scheme="dark"] {
+        --body-background: #17181c;
+        --accent-color: #a5b4fc;
+        --accent-color-darker: #c4b5fd;
+        --accent-color-text: #17181c;
+        --card-background: #24262b;
+    }
+}
+
+.site-name {
+    font-weight: 800;
+    letter-spacing: -0.035em;
+}
+
+.site-description {
+    line-height: 1.7;
+}
+
+.article-title {
+    letter-spacing: -0.025em;
+}
+
+.article-content {
+    font-size: 1.7rem;
+}
+
+.article-list article {
+    transition: transform 180ms ease, box-shadow 180ms ease;
+
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-l2);
+    }
+}
+
+.widget {
+    border-radius: var(--card-border-radius);
+}

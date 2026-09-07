@@ -1,70 +1,136 @@
 baseURL: "https://lcq602.github.io/"
 languageCode: "zh-cn"
-defaultContentLanguage: "zh"
+defaultContentLanguage: "zh-cn"
+hasCJKLanguage: true
 title: "林允 · 开发札记"
-theme: ["github.com/adityatelange/hugo-PaperMod"]
 enableRobotsTXT: true
-summaryLength: 120
 
 pagination:
-  pagerSize: 10
+  pagerSize: 6
 
-minify:
-  disableXML: true
+module:
+  imports:
+    - path: "github.com/CaiJimmy/hugo-theme-stack/v4"
 
 params:
-  env: production
-  title: "林允 · 开发札记"
+  mainSections:
+    - posts
+  rssFullContent: true
   description: "记录 Java 后端、AI Agent、DevOps 与独立游戏开发"
   keywords:
     - Java
     - AI Agent
     - DevOps
     - Godot
-  author: "林允"
-  defaultTheme: auto
-  disableThemeToggle: false
-  mainSections:
-    - posts
-  ShowReadingTime: true
-  ShowShareButtons: true
-  ShowPostNavLinks: true
-  ShowBreadCrumbs: true
-  ShowCodeCopyButtons: true
-  ShowToc: true
-  TocOpen: false
-  ShowWordCount: true
-  ShowRssButtonInSectionTermList: true
-  UseHugoToc: true
-  homeInfoParams:
-    Title: "把踩过的坑，写成能复用的经验。"
-    Content: "这里记录 Java 后端、AI Agent、DevOps 与 Godot 独立游戏开发。少一些空泛概念，多一些真正跑通过的代码、排错过程和实践总结。"
-  socialIcons:
-    - name: github
-      title: "查看我的 GitHub"
-      url: "https://github.com/lcq602"
+  footer:
+    since: 2026
+    customText: "记录真实的开发过程与解决方案"
+  dateFormat:
+    published: "2006年01月02日"
+    lastUpdated: "2006年01月02日 15:04"
+  sidebar:
+    compact: false
+    emoji: "🚀"
+    subtitle: "Java 后端 · AI Agent · DevOps · Godot"
+    avatar: "img/avatar.svg"
+  article:
+    headingAnchor: true
+    math: false
+    toc: true
+    readingTime: true
+    list:
+      showTags: true
+    license:
+      enabled: false
+      default: ""
+  widgets:
+    homepage:
+      - type: search
+      - type: archives
+        params:
+          limit: 5
+      - type: categories
+        params:
+          limit: 10
+      - type: tag-cloud
+        params:
+          limit: 12
+    page:
+      - type: toc
+  colorScheme:
+    toggle: true
+    default: auto
+  imageProcessing:
+    autoOrient: true
+    external:
+      timeout: "5s"
+    content:
+      widths:
+        - 800
+        - 1600
+      enabled: true
+    thumbnail:
+      enabled: true
+  comments:
+    enabled: false
+    provider: ""
 
 menu:
   main:
+    - identifier: home
+      name: 首页
+      url: /
+      weight: 10
+      params:
+        icon: home
     - identifier: posts
       name: 文章
       url: /posts/
-      weight: 10
+      weight: 20
+      params:
+        icon: article
     - identifier: archives
       name: 归档
       url: /archives/
-      weight: 20
-    - identifier: tags
-      name: 标签
-      url: /tags/
       weight: 30
+      params:
+        icon: archives
     - identifier: search
       name: 搜索
       url: /search/
       weight: 40
+      params:
+        icon: search
+  social:
+    - identifier: github
+      name: GitHub
+      url: "https://github.com/lcq602"
+      params:
+        icon: brand-github
+        newTab: true
 
-outputs:
-  home:
-    - HTML
-    - RSS
-    - JSON
+related:
+  includeNewer: true
+  threshold: 60
+  toLower: false
+  indices:
+    - name: tags
+      weight: 100
+    - name: categories
+      weight: 200
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  tableOfContents:
+    startLevel: 2
+    endLevel: 4
+    ordered: false
+  highlight:
+    noClasses: false
+    codeFences: true
+    guessSyntax: true
+    lineNos: true
+    lineNumbersInTable: true
+    tabWidth: 4
