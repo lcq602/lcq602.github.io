@@ -5,69 +5,42 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
   <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} · {{ site.Title }}{{ end }}</title>
-  <link rel="stylesheet" href="{{ "css/site.css" | relURL }}?v=202609072100">
-  <link rel="stylesheet" href="{{ "css/anime-bg.css" | relURL }}?v=202609072100">
-  <link rel="stylesheet" href="{{ "css/article-controls.css" | relURL }}?v=202609072100">
+  <link rel="stylesheet" href="{{ "css/site.css" | relURL }}?v=202609072120">
+  <link rel="stylesheet" href="{{ "css/anime-bg.css" | relURL }}?v=202609072120">
+  <link rel="stylesheet" href="{{ "css/article-controls.css" | relURL }}?v=202609072120">
+  {{ $position := default "center center" .Params.background_position }}
+  {{ $brightness := default 0.72 .Params.background_brightness }}
   <style>
-    html{background:#070812!important}
-    body{background:transparent!important;position:relative!important;min-height:100vh!important}
-    body::before,body::after{display:none!important}
+    html{background:#070812!important}body{background:transparent!important;position:relative!important;min-height:100vh!important}body::before,body::after{display:none!important}
     .global-video-bg{position:fixed!important;inset:0!important;z-index:0!important;overflow:hidden!important;background-color:#070812!important;pointer-events:none!important}
-    .global-video-poster,.background-video{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-width:100%!important;min-height:100%!important;object-fit:cover!important;object-position:center!important;display:block!important;opacity:1!important;transform:none!important}
-    .global-video-poster{z-index:0!important}
-    .background-video{z-index:1!important;filter:saturate(.96) contrast(1.03) brightness(.82)!important}
+    .global-video-poster,.background-video{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-width:100%!important;min-height:100%!important;object-fit:cover!important;object-position:{{ $position }}!important;display:block!important;opacity:1!important;transform:none!important}
+    .global-video-poster{z-index:0!important}.background-video{z-index:1!important;filter:saturate(.96) contrast(1.03) brightness({{ $brightness }})!important}
     .global-video-shade{position:absolute!important;inset:0!important;z-index:2!important;background:linear-gradient(90deg,rgba(3,5,12,.48),rgba(5,7,15,.16) 50%,rgba(4,6,13,.28)),linear-gradient(180deg,rgba(6,8,18,.05),rgba(4,5,12,.34))!important}
-    .article-background{background-size:cover!important;background-position:center center!important;background-repeat:no-repeat!important;background-attachment:fixed!important}
-    .article-background .global-video-shade{background:linear-gradient(90deg,rgba(5,6,13,.60),rgba(6,7,15,.24) 52%,rgba(5,6,13,.44)),linear-gradient(180deg,rgba(4,5,12,.16),rgba(4,5,12,.52))!important}
-    .global-video-glow{display:none!important}
-    .site-header,main,.site-footer{position:relative!important;z-index:10!important}
-    .hero,.collection,.page-hero,.listing,.article,.archive-list{background:transparent!important}
+    .article-background{background-size:cover!important;background-position:{{ $position }}!important;background-repeat:no-repeat!important;background-attachment:fixed!important;filter:brightness({{ $brightness }})}
+    .article-background-video{filter:none!important}.article-background .global-video-shade{background:linear-gradient(90deg,rgba(5,6,13,.60),rgba(6,7,15,.24) 52%,rgba(5,6,13,.44)),linear-gradient(180deg,rgba(4,5,12,.16),rgba(4,5,12,.52))!important}
+    .site-header,main,.site-footer{position:relative!important;z-index:10!important}.hero,.collection,.page-hero,.listing,.article,.archive-list{background:transparent!important}
+    @media(max-width:760px){.article-background-video .background-video{display:none!important}.article-background-video .global-video-poster{display:block!important}.article-background{background-attachment:scroll!important}}
+    @media(prefers-reduced-motion:reduce){.article-background-video .background-video{display:none!important}.article-background-video .global-video-poster{display:block!important}}
   </style>
-  <script src="{{ "js/site.js" | relURL }}?v=202609072100" defer></script>
+  <script src="{{ "js/site.js" | relURL }}?v=202609072120" defer></script>
 </head>
 <body>
   {{ if and .IsPage .Params.video }}
   <div class="global-video-bg article-background article-background-video" aria-hidden="true">
     {{ with .Params.image }}<img class="global-video-poster" src="{{ . | relURL }}" alt="">{{ end }}
-    <video class="background-video" autoplay muted loop playsinline preload="auto"{{ with .Params.image }} poster="{{ . | relURL }}"{{ end }}>
-      <source src="{{ .Params.video | relURL }}" type="video/mp4">
-    </video>
+    <video class="background-video" autoplay muted loop playsinline preload="metadata"{{ with .Params.image }} poster="{{ . | relURL }}"{{ end }}><source src="{{ .Params.video | relURL }}" type="video/mp4"></video>
     <div class="global-video-shade"></div>
   </div>
   {{ else if and .IsPage .Params.image }}
-  <div class="global-video-bg article-background article-background-image" style="background-image:url('{{ .Params.image | relURL }}')" aria-hidden="true">
-    <div class="global-video-shade"></div>
-  </div>
+  <div class="global-video-bg article-background article-background-image" style="background-image:url('{{ .Params.image | relURL }}')" aria-hidden="true"><div class="global-video-shade"></div></div>
   {{ else }}
   <div class="global-video-bg" aria-hidden="true">
-    <img class="global-video-poster" src="{{ "img/mikasa-sunset-poster.jpg" | relURL }}?v=202609072100" alt="">
-    <video class="background-video" autoplay muted loop playsinline preload="auto" poster="{{ "img/mikasa-sunset-poster.jpg" | relURL }}?v=202609072100">
-      <source src="{{ "video/mikasa-sunset.mp4" | relURL }}?v=202609072100" type="video/mp4">
-    </video>
+    <img class="global-video-poster" src="{{ "img/mikasa-sunset-poster.jpg" | relURL }}?v=202609072120" alt="">
+    <video class="background-video" autoplay muted loop playsinline preload="metadata" poster="{{ "img/mikasa-sunset-poster.jpg" | relURL }}?v=202609072120"><source src="{{ "video/mikasa-sunset.mp4" | relURL }}?v=202609072120" type="video/mp4"></video>
     <div class="global-video-shade"></div>
   </div>
   {{ end }}
-  {{ partial "header.html" . }}
-  <main>{{ block "main" . }}{{ end }}</main>
-  {{ partial "footer.html" . }}
-  <script>
-    (() => {
-      const videos = document.querySelectorAll('.background-video');
-      videos.forEach((video) => {
-        video.muted = true;
-        video.defaultMuted = true;
-        video.setAttribute('muted', '');
-        video.setAttribute('playsinline', '');
-        const start = () => {
-          const p = video.play();
-          if (p && typeof p.catch === 'function') p.catch(() => {});
-        };
-        start();
-        video.addEventListener('loadeddata', start, { once: true });
-        video.addEventListener('canplay', start, { once: true });
-        document.addEventListener('visibilitychange', () => { if (!document.hidden) start(); });
-      });
-    })();
-  </script>
+  {{ partial "header.html" . }}<main>{{ block "main" . }}{{ end }}</main>{{ partial "footer.html" . }}
+  <script>(()=>{if(window.matchMedia('(max-width:760px), (prefers-reduced-motion: reduce)').matches)return;document.querySelectorAll('.background-video').forEach(video=>{video.muted=true;video.defaultMuted=true;video.setAttribute('muted','');video.setAttribute('playsinline','');const start=()=>{const p=video.play();if(p&&typeof p.catch==='function')p.catch(()=>{})};start();video.addEventListener('canplay',start,{once:true});document.addEventListener('visibilitychange',()=>{if(!document.hidden)start()})})})();</script>
 </body>
 </html>
