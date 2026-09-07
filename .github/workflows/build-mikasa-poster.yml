@@ -15,6 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
       - name: Generate poster from video
         run: |
           mkdir -p static/img
@@ -29,4 +33,5 @@ jobs:
             exit 0
           fi
           git commit -m "add Mikasa video poster fallback"
-          git push
+          git pull --rebase origin main
+          git push origin HEAD:main
